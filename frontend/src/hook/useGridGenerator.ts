@@ -3,12 +3,15 @@ import { ApiService } from '../service/api/api.service';
 
 export const useGridGenerator = () => {
     const [grid, setGrid] = useState<string[][]>([]);
+    const [codeSecret, setCodeSecret] = useState<string>('');
     const [isRunning, setIsRunning] = useState<boolean>(false);
 
     const startGenerator = async () => {
         try {
-            const initialGrid = await ApiService.getGrid();
-            setGrid(initialGrid);
+            const initialGridWithCode = await ApiService.getGridWithCode();
+            const { grid, code_secret } = initialGridWithCode;
+            setGrid(grid);
+            setCodeSecret(code_secret);
             setIsRunning(true);
         } catch (error) {
             console.error('Error starting generator:', error);
@@ -21,6 +24,7 @@ export const useGridGenerator = () => {
 
     return {
         grid,
+        codeSecret,
         isRunning,
         startGenerator,
         stopGenerator,
