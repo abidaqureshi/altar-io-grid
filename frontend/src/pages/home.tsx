@@ -1,10 +1,11 @@
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { useGridGenerator } from '../hook/useGridGenerator';
 import GridComponent from '../components/GridComponent';
 
 const Home = () => {
     const {
         grid,
+        codeSecret,
         startGenerator,
         stopGenerator,
         isRunning,
@@ -27,7 +28,20 @@ const Home = () => {
             </div>
 
             <div className="mb-8">
+                <div className="flex justify-center mb-4">
+                    <div>Character</div>
+                    <Input
+                        type="text"
+                        minLength={1}
+                        maxLength={1}
+                        className="w-16 mx-2"
+                    />
+                </div>
                 <GridComponent cells={grid} />
+            </div>
+            <div className="mb-8">
+                <h2 className="text-xl font-semibold">Code Secret:</h2>
+                <p className="text-lg">{codeSecret}</p>
             </div>
         </div>
     );
