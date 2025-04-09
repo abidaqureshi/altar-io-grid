@@ -22,7 +22,9 @@ export class GridGeneratorController {
 
     @Get()
     getGrid() {
-        return { grid: this.gridGeneratorService.getCurrentGrid() };
+        const grid = this.gridGeneratorService.getCurrentGrid();
+        const codeSecret = this.gridGeneratorService.calculateCode(grid);
+        return { grid, code_secret: codeSecret };
     }
 
     @Get(':id')
