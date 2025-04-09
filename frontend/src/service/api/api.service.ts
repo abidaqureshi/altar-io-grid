@@ -1,12 +1,17 @@
 import axios from 'axios';
 
+type GridResponse = {
+    grid: string[][];
+    code_secret: string;
+};
+
 const API_BASE_URL =
     import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const ApiService = {
-    getGrid: async () => {
+    getGridWithCode: async () => {
         const response = await axios.get(`${API_BASE_URL}/grid-generator`);
-        return response.data.grid;
+        return response.data as GridResponse;
     },
 
     getCode: async () => {
