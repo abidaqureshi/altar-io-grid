@@ -5,7 +5,7 @@ const API_BASE_URL =
 
 export const ApiService = {
     getGrid: async () => {
-        const response = await axios.get(`${API_BASE_URL}/grid`);
+        const response = await axios.get(`${API_BASE_URL}/grid-generator`);
         return response.data.grid;
     },
 
