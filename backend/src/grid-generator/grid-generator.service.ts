@@ -6,6 +6,7 @@ import { Interval, Cron } from '@nestjs/schedule';
 @Injectable()
 export class GridGeneratorService {
     private grid: string[][] = [];
+    private biasChar: string = '';
 
     constructor() {
         //this.generateGrid();
@@ -21,11 +22,21 @@ export class GridGeneratorService {
 
     generateGrid() {
         const newGrid: string[][] = [];
+        const biasPositions = new Set<number>();
+        const biasCells = Math.floor(100 * 0.2); // 20% of the grid
+
+        while (biasPositions.size < biasCells) {
+            biasPositions.add(Math.floor(Math.random() * 100));
+        }
+
         for (let i = 0; i < 10; i++) {
             newGrid[i] = [];
             for (let j = 0; j < 10; j++) {
                 const linearPos = i * 10 + j;
-                newGrid[i][j] = this.getRandomChar();
+                newGrid[i][j] =
+                    biasPositions.has(linearPos) && this.biasChar
+                        ? this.biasChar
+                        : this.getRandomChar();
             }
         }
         this.grid = newGrid;
@@ -35,6 +46,10 @@ export class GridGeneratorService {
 
     private getRandomChar() {
         return String.fromCharCode(97 + Math.floor(Math.random() * 26));
+    }
+
+    setBiasChar(biasChar: string) {
+        this.biasChar = biasChar;
     }
 
     calculateCode(grid: string[][]): string {
