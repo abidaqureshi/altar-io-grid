@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    Query,
 } from '@nestjs/common';
 import { GridGeneratorService } from './grid-generator.service';
 import { CreateGridGeneratorDto } from './dto/create-grid-generator.dto';
@@ -21,7 +22,9 @@ export class GridGeneratorController {
     }
 
     @Get()
-    getGrid() {
+    getGrid(@Query('bias') biasChar: string) {
+        console.log('biasChar:', biasChar);
+        this.gridGeneratorService.setBiasChar(biasChar);
         const grid = this.gridGeneratorService.getCurrentGrid();
         const codeSecret = this.gridGeneratorService.calculateCode(grid);
         return { grid, code_secret: codeSecret };
