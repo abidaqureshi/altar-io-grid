@@ -1,6 +1,8 @@
 import { Button, Input, message } from 'antd';
-import { useGridGenerator } from '../hook/useGridGenerator';
 import GridComponent from '../components/GridComponent';
+import { useGridContext } from '../provider/GridProvider';
+import NavLinks from '../components/NavLinks';
+import CodeSecret from '../components/CodeSecret';
 
 const Home = () => {
     const {
@@ -8,15 +10,18 @@ const Home = () => {
         codeSecret,
         isRunning,
         biasChar,
+        lastBiasUpdate,
+        isBiasLoading,
+        isLoading,
         startGenerator,
         stopGenerator,
-        setBiasChar,
-    } = useGridGenerator();
+        setBiasCharacter,
+    } = useGridContext();
 
     const aplhabetInputHandler = (value: string) => {
         const re = /^[a-z]$/;
         if (value == '' || re.test(value)) {
-            setBiasChar(value);
+            setBiasCharacter(value);
         } else {
             message.info(
                 'Please enter a valid character (a-z) or leave it empty.',
@@ -25,22 +30,23 @@ const Home = () => {
         }
     };
 
+    const cooldownRemaining = Math.max(
+        0,
+        Math.ceil((4000 - (Date.now() - lastBiasUpdate)) / 1000),
+    );
+
     return (
         <div className="container mx-auto p-4 max-w-4xl">
+            <NavLinks />
+
             <h1 className="text-2xl font-bold mb-6">Grid Generator</h1>
-            <div className="flex justify-between">
-                <div className="flex gap-4 mb-8">
-                    {!isRunning ? (
-                        <Button type="primary" onClick={startGenerator}>
-                            Start Generator
-                        </Button>
-                    ) : (
-                        <Button danger onClick={stopGenerator}>
-                            Stop Generator
-                        </Button>
-                    )}
+            <div className="absolute top-20 left-[500px]">
+                <div className="font-bold text-xl">
+                    {isLoading ? 'Live ...' : 'Offline'}
                 </div>
-                <div className="flex flex-col justify-center mb-4">
+            </div>
+            <div className="flex justify-between">
+                <div className="flex flex-col gap-4 mb-8">
                     <div>Character</div>
                     <div>
                         <Input
@@ -54,17 +60,26 @@ const Home = () => {
                                 aplhabetInputHandler(e.target.value)
                             }
                             placeholder="Enter a character"
+                            disabled={isBiasLoading || cooldownRemaining > 0}
                         />
                     </div>
+                </div>
+                <div className="flex flex-col justify-center mb-4">
+                    {!isRunning ? (
+                        <Button type="primary" onClick={startGenerator}>
+                            Start Generator
+                        </Button>
+                    ) : (
+                        <Button danger onClick={stopGenerator}>
+                            Stop Generator
+                        </Button>
+                    )}
                 </div>
             </div>
             <div className="mb-8">
                 <GridComponent cells={grid} />
             </div>
-            <div className="mb-8">
-                <h2 className="text-xl font-semibold">Code Secret:</h2>
-                <p className="text-lg">{codeSecret}</p>
-            </div>
+            <CodeSecret codeSecret={codeSecret} />
         </div>
     );
 };
