@@ -9,8 +9,10 @@ const API_BASE_URL =
     import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const ApiService = {
-    getGridWithCode: async () => {
-        const response = await axios.get(`${API_BASE_URL}/grid-generator`);
+    getGridWithCode: async (biasChar = '') => {
+        const response = await axios.get(`${API_BASE_URL}/grid-generator`, {
+            params: { bias: biasChar },
+        });
         return response.data as GridResponse;
     },
 
