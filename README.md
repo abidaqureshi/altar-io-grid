@@ -108,4 +108,11 @@ The backend provides the following endpoints:
 ### Tools
 - ESLint
 - Prettier
-- Docker (optional for deployment)
+- Docker 
+
+## Docker deployment
+
+```
+docker build -t altar-grid-app .
+docker run -p 3000:3000 altar-grid-app
+```
