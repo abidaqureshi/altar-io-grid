@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ApiService } from '../service/api/api.service';
 import { io, Socket } from 'socket.io-client';
 import { GridGeneratorProps } from '../types/grid-types';
@@ -23,10 +23,20 @@ export const useGridGenerator = () => {
             });
 
             socketConnection.on('GRID_UPDATE', (data: GridGeneratorProps) => {
-                console.log('Received grid update:', data);
                 setGrid(data.grid);
                 setCodeSecret(data.code_secret);
                 setIsBiasLoading(false);
+            });
+
+            socketConnection.on('error', (error) => {
+                setIsLoading(false);
+                message.error('Server stop unexpectedly');
+                console.log('Server error:', error);
+            });
+            socketConnection.on('disconnect', () => {
+                setIsLoading(false);
+                message.error('Application is disconnected');
+                console.log('Network down');
             });
 
             setIsRunning(true);
@@ -36,9 +46,6 @@ export const useGridGenerator = () => {
     };
 
     const stopGenerator = () => {
-        socket?.on('disconnect', () => {
-            setIsLoading(false);
-        });
         socket?.disconnect();
         setIsRunning(false);
     };

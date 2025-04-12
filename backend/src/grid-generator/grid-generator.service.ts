@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGridGeneratorDto } from './dto/create-grid-generator.dto';
 import { UpdateGridGeneratorDto } from './dto/update-grid-generator.dto';
-import { Interval, Cron } from '@nestjs/schedule';
+import { Interval } from '@nestjs/schedule';
 
 @Injectable()
 export class GridGeneratorService {
@@ -67,7 +67,6 @@ export class GridGeneratorService {
         const count1 = this.countOccurrences(char1);
         const count2 = this.countOccurrences(char2);
 
-        console.log(char1, char2);
         return `${this.normalizeCount(count1)}${this.normalizeCount(count2)}`;
     }
 
