@@ -113,6 +113,7 @@ The backend provides the following endpoints:
 ## Docker deployment
 
 ```
+cd backend
 docker build -t altar-grid-app .
 docker run -p 3000:3000 altar-grid-app
 ```
