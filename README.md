@@ -71,8 +71,8 @@ PORT=5000
 
 For the frontend, create a `.env` file in the `frontend/` directory:
 ```
-VITE_API_URL=http://localhost:3000/v1/api
-VITE_SOCKET_URL=ws://localhost:3000
+VITE_API_URL=http://localhost:{SERVER_PORT}/v1/api
+VITE_SOCKET_URL=ws://localhost:{SERVER_PORT}
 ```
 
 ## API Documentation
