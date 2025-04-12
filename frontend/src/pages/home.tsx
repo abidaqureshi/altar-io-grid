@@ -3,6 +3,7 @@ import GridComponent from '../components/GridComponent';
 import { useGridContext } from '../provider/GridProvider';
 import NavLinks from '../components/NavLinks';
 import CodeSecret from '../components/CodeSecret';
+import NetworkStatus from '../components/NetworkStatus';
 
 const Home = () => {
     const {
@@ -40,10 +41,8 @@ const Home = () => {
             <NavLinks />
 
             <h1 className="text-2xl font-bold mb-6">Grid Generator</h1>
-            <div className="absolute top-20 left-[500px]">
-                <div className="font-bold text-xl">
-                    {isLoading ? 'Live ...' : 'Offline'}
-                </div>
+            <div className="flex justify-center w-full">
+                <NetworkStatus isLoading={isLoading} />
             </div>
             <div className="flex justify-between">
                 <div className="flex flex-col gap-4 mb-8">

@@ -23,7 +23,6 @@ export class GridGeneratorController {
 
     @Get()
     getGrid(@Query('bias') biasChar: string) {
-        console.log('biasChar:', biasChar);
         this.gridGeneratorService.setBiasChar(biasChar);
         const grid = this.gridGeneratorService.getCurrentGrid();
         const codeSecret = this.gridGeneratorService.calculateCode(grid);
