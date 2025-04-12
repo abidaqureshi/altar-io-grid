@@ -22,9 +22,7 @@ const Payments = () => {
         socketConnection.on('connect', () => {
             console.log('Payment websocket connected');
         });
-        socketConnection.on('payment-list-updated', (data: TPaymentData[]) => {
-            console.log('Received payment update:', data);
-
+        socketConnection.on('payment-list-updated', (data: TPaymentData[]) => {            
             setPaymentList(data);
         });
 
